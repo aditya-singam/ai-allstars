@@ -7,8 +7,12 @@
     "server"
   ],
   "scripts": {
-    "build": "cd client && CI=false npm install && npm run build",
-    "start": "cd server && npm install && npm start",
+    "build": "cd client && npm ci --omit=dev && npm run build",
+    "start": "cd server && npm ci --omit=dev && npm start",
     "postinstall": "npm run build"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
   }
 } 
