@@ -915,16 +915,16 @@ number1 = 10
 number2 = 5
 
 # Addition
-print(\`Addition: \${number1 + number2}\`)
+print("Addition: " + str(number1 + number2))
 
 # Subtraction
-print(\`Subtraction: \${number1 - number2}\`)
+print("Subtraction: " + str(number1 - number2))
 
 # Multiplication
-print(\`Multiplication: \${number1 * number2}\`)
+print("Multiplication: " + str(number1 * number2))
 
 # Division
-print(\`Division: \${number1 / number2}\`)`;
+print("Division: " + str(number1 / number2))`;
         
         case "Strings":
           return `# Print a simple string
@@ -969,76 +969,83 @@ print(\`Hello \${name}, you will be \${age + 1} next year!\`)`;
 
     const [code, setCode] = useState(getInitialCode(lesson.title));
     const [output, setOutput] = useState('');
+    const [isRunning, setIsRunning] = useState(false);
 
-    const handleRunCode = () => {
+    const handleRunCode = async () => {
       try {
+        setIsRunning(true);
+        setOutput('');
+
         const sandbox = {
+          variables: {},  // Store all variables here
           str: (val) => String(val),
           len: (str) => str.length,
-          input: (prompt) => {
-            // For demo purposes, return some sample input
-            if (prompt.includes("password")) return "coolCats23";
-            if (prompt.includes("favorite number")) return "50";
-            if (prompt.includes("name")) return "John";
-            if (prompt.includes("age")) return "25";
-            return "sample input";
-          },
-          int: (val) => parseInt(val),
           print: (text) => {
-            if (typeof text === 'string') return text;
-            return String(text);
+            let output;
+            try {
+              if (typeof text === 'string' && text.includes('+')) {
+                const parts = text.split('+').map(p => p.trim());
+                const evaluatedParts = parts.map(part => {
+                  if (part.startsWith('"') || part.startsWith("'")) {
+                    return part.slice(1, -1);
+                  }
+                  if (part.startsWith('str(')) {
+                    const varName = part.slice(4, -1).trim();
+                    return String(sandbox.variables[varName]);
+                  }
+                  return sandbox.variables[part] || part;
+                });
+                output = evaluatedParts.join('');
+              } else {
+                output = typeof text === 'string' ? 
+                  text.replace(/^["'](.+)["']$/, '$1') : 
+                  String(text);
+              }
+            } catch (e) {
+              output = String(text);
+            }
+            setOutput(prev => prev + output + '\n');
+            return output;
           }
         };
 
         const lines = code.split('\n');
-        let output = [];
+        
+        // Process all lines
+        for (const line of lines) {
+          const trimmedLine = line.trim();
+          if (!trimmedLine || trimmedLine.startsWith('#')) continue;
 
-        // Track input prompts in output
-        const processLine = (line) => {
-          line = line.trim();
-          if (!line || line.startsWith('#')) return null;
-
-          if (line.includes('input(')) {
-            const match = line.match(/input\("([^"]+)"\)/);
-            if (match) {
-              const prompt = match[1];
-              output.push(prompt);
-              const result = sandbox.input(prompt);
-              return result;
-            }
-          }
-          return null;
-        };
-
-        // Process each line
-        lines.forEach(line => {
           try {
-            if (line.startsWith('print')) {
-              const match = line.match(/print\((.*)\)/);
+            if (trimmedLine.includes('=') && !trimmedLine.includes('print')) {
+              const [varName, expression] = trimmedLine.split('=').map(s => s.trim());
+              // Handle numeric assignments
+              if (!isNaN(expression)) {
+                sandbox.variables[varName] = Number(expression);
+              }
+              // Handle arithmetic operations
+              else if (expression.includes('+') || expression.includes('-') || 
+                       expression.includes('*') || expression.includes('/')) {
+                const evalExpression = expression
+                  .replace(/number1/g, sandbox.variables.number1)
+                  .replace(/number2/g, sandbox.variables.number2);
+                sandbox.variables[varName] = eval(evalExpression);
+              }
+            } else if (trimmedLine.includes('print(')) {
+              const match = trimmedLine.match(/print\((.*)\)/);
               if (match) {
                 const printContent = match[1];
-                const result = new Function(...Object.keys(sandbox), `return ${printContent}`)(...Object.values(sandbox));
-                output.push(result);
+                sandbox.print(printContent);
               }
-            } else if (line.includes('input(')) {
-              const [varName, rest] = line.split('=').map(s => s.trim());
-              if (rest.startsWith('int(')) {
-                sandbox[varName] = parseInt(processLine(rest.slice(4, -1)));
-              } else {
-                sandbox[varName] = processLine(rest);
-              }
-            } else if (line.includes('=')) {
-              const [varName, expression] = line.split('=').map(s => s.trim());
-              sandbox[varName] = new Function(...Object.keys(sandbox), `return ${expression}`)(...Object.values(sandbox));
             }
           } catch (e) {
-            output.push(`Error: ${e.message}`);
+            setOutput(prev => prev + `Error: ${e.message}\n`);
           }
-        });
-
-        setOutput(output.join('\n'));
+        }
       } catch (error) {
-        setOutput('Error: ' + error.message);
+        setOutput(prev => prev + `Error: ${error.message}\n`);
+      } finally {
+        setIsRunning(false);
       }
     };
 
@@ -1228,14 +1235,22 @@ print(\`Hello \${name}, you will be \${age + 1} next year!\`)`;
               <Button 
                 variant="contained" 
                 onClick={handleRunCode}
+                disabled={isRunning}
                 sx={{ mt: 2, mb: 2 }}
               >
-                Run Code
+                {isRunning ? 'Running...' : 'Run Code'}
               </Button>
               {output && (
-                <Paper sx={{ p: 2, bgcolor: 'white', mt: 2 }}>
-                  <Typography variant="h6" gutterBottom>Output:</Typography>
-                  <pre>{output}</pre>
+                <Paper 
+                  sx={{ 
+                    p: 2, 
+                    bgcolor: 'black',
+                    color: 'white',
+                    fontFamily: 'monospace',
+                    mt: 2 
+                  }}
+                >
+                  <pre style={{ margin: 0, whiteSpace: 'pre-wrap' }}>{output}</pre>
                 </Paper>
               )}
             </Paper>
