@@ -2,14 +2,11 @@
   "name": "ai-allstars",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "client",
-    "server"
-  ],
   "scripts": {
-    "build": "cd client && npm ci --omit=dev && npm run build",
-    "start": "cd server && npm ci --omit=dev && npm start",
-    "postinstall": "npm run build"
+    "build": "cd client && npm ci && npm run build",
+    "start": "cd server && npm ci && npm start",
+    "install:client": "cd client && npm ci",
+    "install:server": "cd server && npm ci"
   },
   "engines": {
     "node": ">=16.0.0",

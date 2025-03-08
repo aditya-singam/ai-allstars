@@ -1,9 +1,9 @@
 [build]
 builder = "nixpacks"
-buildCommand = "npm ci --omit=dev && npm run build"
+buildCommand = "npm run install:client && cd client && npm run build"
 
 [deploy]
-startCommand = "npm start"
+startCommand = "npm run install:server && cd server && npm start"
 healthcheckPath = "/"
 healthcheckTimeout = 100
 restartPolicyType = "on_failure"
