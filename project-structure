@@ -1,0 +1,11 @@
+aiallstars/
+├── client/             # React frontend
+│   ├── public/
+│   └── src/
+├── server/             # Express backend
+│   ├── config/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   └── middleware/
+└── database/           # SQLite database 
