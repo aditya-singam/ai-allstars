@@ -9,6 +9,9 @@ import Register from './pages/Register';
 import { AuthProvider } from './context/AuthContext';
 import Footer from './components/Footer';
 import CourseContent from './pages/CourseContent';
+import About from './pages/About';
+import Partners from './pages/Partners';
+import Blog from './pages/Blog';
 
 const theme = createTheme({
   palette: {
@@ -46,6 +49,9 @@ function App() {
                 <Route path="/courses/:id" element={<CourseContent />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/partners" element={<Partners />} />
+                <Route path="/blog" element={<Blog />} />
               </Routes>
             </Box>
             <Footer />

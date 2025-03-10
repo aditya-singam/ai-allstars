@@ -977,9 +977,8 @@ print(\`Hello \${name}, you will be \${age + 1} next year!\`)`;
         setOutput('');
 
         const sandbox = {
-          variables: {},  // Store all variables here
+          variables: {},
           str: (val) => String(val),
-          len: (str) => str.length,
           print: (text) => {
             let output;
             try {
@@ -990,8 +989,14 @@ print(\`Hello \${name}, you will be \${age + 1} next year!\`)`;
                     return part.slice(1, -1);
                   }
                   if (part.startsWith('str(')) {
-                    const varName = part.slice(4, -1).trim();
-                    return String(sandbox.variables[varName]);
+                    const expr = part.slice(4, -1).trim();
+                    if (expr.includes('+') || expr.includes('-') || 
+                        expr.includes('*') || expr.includes('/')) {
+                      const result = eval(expr.replace(/number1/g, sandbox.variables.number1)
+                                          .replace(/number2/g, sandbox.variables.number2));
+                      return String(result);
+                    }
+                    return String(sandbox.variables[expr]);
                   }
                   return sandbox.variables[part] || part;
                 });
@@ -1001,45 +1006,48 @@ print(\`Hello \${name}, you will be \${age + 1} next year!\`)`;
                   text.replace(/^["'](.+)["']$/, '$1') : 
                   String(text);
               }
+              setOutput(prev => prev + output + '\n');
             } catch (e) {
-              output = String(text);
+              setOutput(prev => prev + `Error: ${e.message}\n`);
             }
-            setOutput(prev => prev + output + '\n');
-            return output;
           }
         };
 
         const lines = code.split('\n');
         
-        // Process all lines
+        // First pass: Process all variable assignments
         for (const line of lines) {
           const trimmedLine = line.trim();
           if (!trimmedLine || trimmedLine.startsWith('#')) continue;
 
-          try {
-            if (trimmedLine.includes('=') && !trimmedLine.includes('print')) {
-              const [varName, expression] = trimmedLine.split('=').map(s => s.trim());
-              // Handle numeric assignments
+          if (trimmedLine.includes('=') && !trimmedLine.includes('print')) {
+            const [varName, expression] = trimmedLine.split('=').map(s => s.trim());
+            try {
               if (!isNaN(expression)) {
                 sandbox.variables[varName] = Number(expression);
+              } else if (expression.includes('+') || expression.includes('-') || 
+                        expression.includes('*') || expression.includes('/')) {
+                sandbox.variables[varName] = eval(expression);
+              } else {
+                sandbox.variables[varName] = expression;
               }
-              // Handle arithmetic operations
-              else if (expression.includes('+') || expression.includes('-') || 
-                       expression.includes('*') || expression.includes('/')) {
-                const evalExpression = expression
-                  .replace(/number1/g, sandbox.variables.number1)
-                  .replace(/number2/g, sandbox.variables.number2);
-                sandbox.variables[varName] = eval(evalExpression);
-              }
-            } else if (trimmedLine.includes('print(')) {
-              const match = trimmedLine.match(/print\((.*)\)/);
-              if (match) {
-                const printContent = match[1];
-                sandbox.print(printContent);
-              }
+            } catch (e) {
+              setOutput(prev => prev + `Error: ${e.message}\n`);
             }
-          } catch (e) {
-            setOutput(prev => prev + `Error: ${e.message}\n`);
+          }
+        }
+
+        // Second pass: Process all print statements
+        for (const line of lines) {
+          const trimmedLine = line.trim();
+          if (!trimmedLine || trimmedLine.startsWith('#')) continue;
+
+          if (trimmedLine.includes('print(')) {
+            const match = trimmedLine.match(/print\((.*)\)/);
+            if (match) {
+              const printContent = match[1];
+              sandbox.print(printContent);
+            }
           }
         }
       } catch (error) {

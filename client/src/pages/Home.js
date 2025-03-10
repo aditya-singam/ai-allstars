@@ -55,8 +55,8 @@ const Home = () => {
               >
                 Your Journey to AI Mastery Starts Here
               </Typography>
-              <Button
-                variant="contained"
+              <Button 
+                variant="contained" 
                 size="medium"
                 sx={{
                   bgcolor: 'white',
@@ -117,10 +117,18 @@ const Home = () => {
             Our Mission
           </Typography>
           <Typography variant="body1" paragraph sx={{ fontSize: '1rem' }}>
-            AI Allstars is an international organization whose goal is to provide a free, up-to-date, and accessible artificial intelligence curriculum to students across the globe.
+            AI Allstars is a nonprofit organization dedicated to making artificial intelligence education 
+            accessible to middle and high school students worldwide. Our mission is to provide a free, 
+            up-to-date curriculum that empowers students with AI knowledge and skills.
           </Typography>
           <Typography variant="body1" paragraph sx={{ fontSize: '1rem' }}>
-            We strive to broaden the participation of underrepresented groups (including gender, socioeconomic status, and ethnicity) to increase their success in computer science and technology.
+            We are committed to increasing diversity in technology by encouraging participation from 
+            underrepresented groups, including those from different socioeconomic backgrounds, genders, 
+            and ethnicities.
+          </Typography>
+          <Typography variant="body1" paragraph sx={{ fontSize: '1rem' }}>
+            This platform offers a completely free AI and computer science curriculum, ensuring that 
+            financial limitations do not prevent students from exploring the world of artificial intelligence.
           </Typography>
         </Paper>
 
@@ -210,7 +218,7 @@ const Home = () => {
           </Typography>
           <Button 
             variant="contained" 
-            size="large" 
+            size="large"
             href="/register"
             sx={{ 
               px: 4,
