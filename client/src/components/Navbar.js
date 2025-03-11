@@ -1,10 +1,23 @@
-import React from 'react';
-import { AppBar, Toolbar, Typography, Button, Box, Container } from '@mui/material';
+import React, { useState } from 'react';
+import { AppBar, Toolbar, Typography, Button, Box, Container, Menu as MenuIcon, IconButton, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const menuItems = [
+    { text: 'Home', path: '/' },
+    { text: 'Courses', path: '/courses' },
+    { text: 'About Us', path: '/about' },
+    { text: 'Partners', path: '/partners' },
+    { text: 'Blog', path: '/blog' }
+  ];
 
   return (
     <AppBar position="static" color="default" elevation={1}>
@@ -74,62 +87,74 @@ const Navbar = () => {
             </Box>
           </Box>
           
-          <Box sx={{ display: 'flex', gap: 2 }}>
-            <Button color="inherit" component={RouterLink} to="/">
-              Home
-            </Button>
-            <Button color="inherit" component={RouterLink} to="/courses">
-              Courses
-            </Button>
-            <Button color="inherit" component={RouterLink} to="/about">
-              About Us
-            </Button>
-            <Button color="inherit" component={RouterLink} to="/partners">
-              Partners
-            </Button>
-            <Button color="inherit" component={RouterLink} to="/blog">
-              Blog
-            </Button>
+          {/* Desktop Menu */}
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2 }}>
+            {menuItems.map((item) => (
+              <Button key={item.text} color="inherit" component={RouterLink} to={item.path}>
+                {item.text}
+              </Button>
+            ))}
             {user ? (
-              <>
-                <Button color="inherit" onClick={logout}>
-                  Sign Out
-                </Button>
-              </>
+              <Button color="inherit" onClick={logout}>Sign Out</Button>
             ) : (
               <>
-                <Button
-                  component={RouterLink}
-                  to="/login"
-                  variant="contained"
-                  sx={{
-                    bgcolor: 'primary.main',
-                    color: 'white',
-                    '&:hover': {
-                      bgcolor: 'primary.dark',
-                    },
-                    mr: 2
-                  }}
-                >
-                  Sign In
-                </Button>
-                <Button
-                  component={RouterLink}
-                  to="/register"
-                  variant="contained"
-                  sx={{
-                    bgcolor: 'primary.main',
-                    color: 'white',
-                    '&:hover': {
-                      bgcolor: 'primary.dark',
-                    }
-                  }}
-                >
-                  Sign Up
-                </Button>
+                <Button component={RouterLink} to="/login" variant="contained">Sign In</Button>
+                <Button component={RouterLink} to="/register" variant="contained">Sign Up</Button>
               </>
             )}
           </Box>
+
+          {/* Mobile Menu Button */}
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ display: { md: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+
+          {/* Mobile Drawer */}
+          <Drawer
+            variant="temporary"
+            anchor="right"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{ keepMounted: true }}
+            sx={{
+              display: { xs: 'block', md: 'none' },
+              '& .MuiDrawer-paper': { width: 240 }
+            }}
+          >
+            <List>
+              {menuItems.map((item) => (
+                <ListItem 
+                  button 
+                  key={item.text} 
+                  component={RouterLink} 
+                  to={item.path}
+                  onClick={handleDrawerToggle}
+                >
+                  <ListItemText primary={item.text} />
+                </ListItem>
+              ))}
+              {user ? (
+                <ListItem button onClick={logout}>
+                  <ListItemText primary="Sign Out" />
+                </ListItem>
+              ) : (
+                <>
+                  <ListItem button component={RouterLink} to="/login" onClick={handleDrawerToggle}>
+                    <ListItemText primary="Sign In" />
+                  </ListItem>
+                  <ListItem button component={RouterLink} to="/register" onClick={handleDrawerToggle}>
+                    <ListItemText primary="Sign Up" />
+                  </ListItem>
+                </>
+              )}
+            </List>
+          </Drawer>
         </Toolbar>
       </Container>
     </AppBar>

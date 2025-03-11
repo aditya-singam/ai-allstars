@@ -1922,8 +1922,17 @@ print(\`Hello \${name}, you will be \${age + 1} next year!\`)`;
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Typography variant="h4" component="h1" gutterBottom color="primary">
+    <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
+      <Typography 
+        variant="h4" 
+        component="h1" 
+        gutterBottom 
+        color="primary"
+        sx={{ 
+          fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
+          mb: { xs: 2, md: 4 }
+        }}
+      >
         {course.title}
       </Typography>
       
@@ -1939,9 +1948,15 @@ print(\`Hello \${name}, you will be \${age + 1} next year!\`)`;
         </Typography>
       </Box>
 
-      <Box sx={{ mt: 4 }}>
+      <Box sx={{ mt: { xs: 2, md: 4 } }}>
         {course.modules.map((module, moduleIndex) => (
-          <Paper key={moduleIndex} sx={{ mb: 3, overflow: 'hidden' }}>
+          <Paper 
+            key={moduleIndex} 
+            sx={{ 
+              mb: { xs: 2, md: 3 },
+              overflow: 'hidden'
+            }}
+          >
             <Typography
               variant="h6"
               sx={{

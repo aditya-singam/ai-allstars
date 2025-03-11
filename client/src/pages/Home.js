@@ -28,8 +28,8 @@ const Home = () => {
         sx={{
           background: 'linear-gradient(45deg, #1976d2 30%, #21CBF3 90%)',
           color: 'white',
-          py: 4,
-          mb: 3
+          py: { xs: 3, md: 4 },
+          mb: { xs: 2, md: 3 }
         }}
       >
         <Container maxWidth="lg">
@@ -41,7 +41,8 @@ const Home = () => {
                 gutterBottom
                 sx={{
                   fontWeight: 'bold',
-                  fontSize: { xs: '1.75rem', md: '2.2rem' }
+                  fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2.2rem' },
+                  textAlign: { xs: 'center', md: 'left' }
                 }}
               >
                 Welcome to AI Allstars
@@ -79,7 +80,7 @@ const Home = () => {
                 alt="AI Learning"
                 sx={{
                   width: '100%',
-                  maxHeight: '300px',
+                  maxHeight: { xs: '200px', md: '300px' },
                   objectFit: 'cover',
                   borderRadius: 2,
                   boxShadow: 2

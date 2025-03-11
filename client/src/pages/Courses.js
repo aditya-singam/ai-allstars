@@ -115,7 +115,7 @@ const Courses = () => {
 
       <Grid container spacing={3}>
         {courses.map((course) => (
-          <Grid item xs={12} md={6} key={course.id}>
+          <Grid item xs={12} sm={6} md={6} key={course.id}>
             <Card 
               sx={{ 
                 height: '100%',
@@ -130,9 +130,10 @@ const Courses = () => {
             >
               <CardMedia
                 component="img"
-                height="200"
+                height={{ xs: 140, sm: 200 }}
                 image={course.image}
                 alt={course.title}
+                sx={{ objectFit: 'cover' }}
               />
               <CardContent sx={{ flexGrow: 1 }}>
                 <Typography variant="h5" component="h2" gutterBottom>
