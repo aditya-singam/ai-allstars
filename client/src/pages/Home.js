@@ -4,20 +4,20 @@ import { Container, Typography, Grid, Box, Paper, Button } from '@mui/material';
 const Home = () => {
   const faqs = [
     {
-      question: "What is this site?",
-      answer: "AI Allstars is a user-friendly introduction to artificial intelligence and machine learning. The site's goal is to make AI content accessible and free to all since current resources online are either too complicated or expensive."
+      question: "What is AI Allstars?",
+      answer: "AI Allstars is a beginner-friendly platform designed to make artificial intelligence and machine learning easy to understand. Our mission is to provide free and accessible AI content, breaking down complex topics into simple, digestible insights. Whether you're just starting or looking to expand your knowledge, AI Allstars is here to help—without the cost or confusion of traditional resources."
     },
     {
       question: "Why AI?",
-      answer: "Every student should have the opportunity to learn AI. The field is shaping the future of humanity across nearly every industry, so by starting early, students will have a foundation for success. The job market for AI is booming due to high demand, making careers in AI lucrative and stable."
+      answer: "AI is rapidly transforming our world, creating exciting opportunities across all industries. By learning AI now, you'll be better prepared for the future of technology and innovation. Our platform makes AI education accessible to everyone, helping build the foundation for tomorrow's technological breakthroughs."
     },
     {
       question: "Do I need any prior experience?",
-      answer: "Not at all! All experience levels from beginner to advanced are welcomed and encouraged!"
+      answer: "Not at all! AI Allstars is designed for everyone, whether you're a complete beginner or an experienced professional. Our content is structured to guide you at your own pace, making AI and machine learning accessible and engaging for all skill levels."
     },
     {
       question: "How do the courses work?",
-      answer: "Each course is complete with lessons, template code, and quizzes. Once you make an account, you can attempt quizzes; each quiz has unlimited attempts and shows your score after each attempt. Courses are recommended to be completed in the order they appear."
+      answer: "Each course includes structured lessons, template code, and quizzes to help you learn effectively. Quizzes can be attempted as many times as you like, with instant feedback on your score after each try. For the best learning experience, we recommend completing the courses in the suggested order."
     }
   ];
 

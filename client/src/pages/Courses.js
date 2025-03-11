@@ -45,19 +45,21 @@ const courses = [
   },
   {
     id: 3,
-    title: "Introduction to Generative AI",
-    description: "Explore the fascinating world of generative AI and create your own models.",
-    lessons: 6,
-    image: "https://images.unsplash.com/photo-1678995632928-298d05d41671?w=800",
-    level: "Intermediate",
-    duration: "15 hours",
+    title: "Neural Networks",
+    description: "Learn about artificial neural networks, deep learning architectures, and their applications.",
+    lessons: 8,
+    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800",
+    level: "Advanced",
+    duration: "10 hours",
     topics: [
-      "Basics of GenAI",
-      "Language Models",
-      "Image Generation",
-      "Prompt Engineering",
-      "Fine-tuning Models",
-      "Ethical Considerations"
+      "Neural Network Fundamentals",
+      "Deep Learning Architectures",
+      "Convolutional Neural Networks",
+      "Recurrent Neural Networks",
+      "Transfer Learning",
+      "Model Training & Optimization",
+      "Neural Network Applications",
+      "Deployment & Best Practices"
     ]
   },
   {
@@ -78,20 +80,19 @@ const courses = [
   },
   {
     id: 5,
-    title: "Neural Networks Fundamentals",
-    description: "Understanding the building blocks of deep learning.",
-    lessons: 7,
-    image: "https://images.unsplash.com/photo-1673187456578-2e9b39ae0e83?w=800",
-    level: "Advanced",
-    duration: "18 hours",
+    title: "Introduction to Generative AI",
+    description: "Explore the fascinating world of generative AI and create your own models.",
+    lessons: 6,
+    image: "https://images.unsplash.com/photo-1678995632928-298d05d41671?w=800",
+    level: "Intermediate",
+    duration: "15 hours",
     topics: [
-      "Neural Network Basics",
-      "Activation Functions",
-      "Backpropagation",
-      "Optimization",
-      "CNN Architecture",
-      "RNN Basics",
-      "Model Deployment"
+      "Basics of GenAI",
+      "Language Models",
+      "Image Generation",
+      "Prompt Engineering",
+      "Fine-tuning Models",
+      "Ethical Considerations"
     ]
   }
 ];

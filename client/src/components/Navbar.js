@@ -98,10 +98,33 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Button color="primary" variant="outlined" component={RouterLink} to="/login">
+                <Button
+                  component={RouterLink}
+                  to="/login"
+                  variant="contained"
+                  sx={{
+                    bgcolor: 'primary.main',
+                    color: 'white',
+                    '&:hover': {
+                      bgcolor: 'primary.dark',
+                    },
+                    mr: 2
+                  }}
+                >
                   Sign In
                 </Button>
-                <Button color="primary" variant="contained" component={RouterLink} to="/register">
+                <Button
+                  component={RouterLink}
+                  to="/register"
+                  variant="contained"
+                  sx={{
+                    bgcolor: 'primary.main',
+                    color: 'white',
+                    '&:hover': {
+                      bgcolor: 'primary.dark',
+                    }
+                  }}
+                >
                   Sign Up
                 </Button>
               </>

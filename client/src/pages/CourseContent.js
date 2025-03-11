@@ -765,120 +765,755 @@ print(person.introduce())
   },
   2: { // Machine Learning Course
     title: "Fundamentals of Machine Learning",
+    duration: "25 Hours",
+    difficulty: "Intermediate",
+    author: "AI Allstars Team",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800",
     modules: [
       {
         title: "Introduction to Machine Learning",
         lessons: [
           {
             title: "What is Machine Learning?",
-            type: "video",
-            duration: "13:16",
-            content: "Understanding the basics of machine learning and its applications.",
-            videoUrl: "https://www.youtube.com/watch?v=ukzFI9rgwfU", // StatQuest
-            additionalResources: [
+            type: "tutorial",
+            duration: "45 min",
+            points: 100,
+            content: `# Introduction to Machine Learning
+
+Machine Learning (ML) is a subset of artificial intelligence that enables systems to learn and improve from experience without being explicitly programmed.
+
+## Key Concepts
+
+1. **Learning Types**:
+   - Supervised Learning
+   - Unsupervised Learning
+   - Reinforcement Learning
+
+2. **Core Components**:
+   - Data
+   - Features
+   - Models
+   - Training
+   - Evaluation
+
+Let's start with a simple example using scikit-learn:`,
+            codeExamples: [
               {
-                title: "Google Machine Learning Crash Course",
-                url: "https://developers.google.com/machine-learning/crash-course"
+                code: `from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+
+# Load dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42)
+
+# Train model
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+# Evaluate
+score = model.score(X_test, y_test)
+print(f"Model accuracy: {score:.2f}")`,
+                output: "Model accuracy: 0.97"
               }
+            ],
+            notes: [
+              "Machine learning models learn patterns from data",
+              "The quality of your data greatly affects model performance",
+              "Always split your data into training and testing sets"
             ]
           },
           {
-            title: "Mathematics for Machine Learning",
-            type: "video",
-            duration: "47:06",
-            content: "Essential math concepts for machine learning.",
-            videoUrl: "https://www.youtube.com/watch?v=1VSZtNYMntM", // 3Blue1Brown
-            practice: "Complete the basic linear algebra exercises."
-          }
-        ]
-      },
-      {
-        title: "Practical Machine Learning",
-        lessons: [
-          {
-            title: "Your First ML Model with Scikit-learn",
+            title: "Supervised Learning",
             type: "tutorial",
-            duration: "23:55",
-            content: "Build your first machine learning model using scikit-learn.",
-            videoUrl: "https://www.youtube.com/watch?v=pqNCD_5r0IU", // Sentdex
-            codeExample: `
-import numpy as np
-from sklearn.linear_model import LinearRegression
+            duration: "50 min",
+            points: 100,
+            content: `# Supervised Learning
 
-# Sample data
-X = np.array([[1], [2], [3], [4]])
-y = np.array([2, 4, 6, 8])
+Supervised learning is when we train models using labeled data. The model learns to map inputs to known outputs.
+
+## Common Applications
+
+1. **Classification**: Predicting categories
+2. **Regression**: Predicting continuous values
+3. **Image Recognition**: Identifying objects
+4. **Spam Detection**: Filtering emails
+
+Let's implement a simple regression example:`,
+            codeExamples: [
+              {
+                code: `import numpy as np
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+
+# Generate sample data
+X = np.array([[1], [2], [3], [4], [5]])
+y = np.array([2, 4, 5, 4, 5])
 
 # Create and train model
 model = LinearRegression()
 model.fit(X, y)
 
 # Make predictions
-print(model.predict([[5]]))
-            `,
-            additionalResources: [
-              {
-                title: "Scikit-learn Documentation",
-                url: "https://scikit-learn.org/stable/"
+y_pred = model.predict(X)
+
+# Print results
+print(f"Coefficient: {model.coef_[0]:.2f}")
+print(f"Intercept: {model.intercept_:.2f}")`,
+                output: `Coefficient: 0.70
+Intercept: 2.30`
               }
             ]
           }
-        ]
+        ],
+        quiz: {
+          title: "Machine Learning Basics Quiz",
+          questions: [
+            {
+              question: "What is the main difference between supervised and unsupervised learning?",
+              options: [
+                "Supervised learning is faster",
+                "Supervised learning uses labeled data",
+                "Unsupervised learning requires more data",
+                "Unsupervised learning is more accurate"
+              ],
+              correctAnswer: 1,
+              explanation: "Supervised learning uses labeled data where the desired output is known, while unsupervised learning finds patterns in unlabeled data."
+            },
+            {
+              question: "Which of these is NOT a common type of machine learning?",
+              options: [
+                "Supervised Learning",
+                "Unsupervised Learning",
+                "Reinforcement Learning",
+                "Automatic Learning"
+              ],
+              correctAnswer: 3,
+              explanation: "The three main types of machine learning are supervised, unsupervised, and reinforcement learning."
+            }
+          ]
+        }
+      },
+      {
+        title: "Model Evaluation",
+        lessons: [
+          {
+            title: "Metrics and Validation",
+            type: "tutorial",
+            duration: "45 min",
+            points: 100,
+            content: `# Model Evaluation
+
+Evaluating machine learning models is crucial to ensure they perform well on new, unseen data.
+
+## Common Metrics
+
+1. **Classification**:
+   - Accuracy
+   - Precision
+   - Recall
+   - F1 Score
+
+2. **Regression**:
+   - Mean Squared Error (MSE)
+   - Root Mean Squared Error (RMSE)
+   - R-squared
+
+Let's implement some common metrics:`,
+            codeExamples: [
+              {
+                code: `from sklearn.metrics import accuracy_score, precision_score
+from sklearn.model_selection import cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import make_classification
+
+# Generate sample data
+X, y = make_classification(n_samples=1000, n_features=20, 
+                         n_classes=2, random_state=42)
+
+# Create model
+model = RandomForestClassifier(random_state=42)
+
+# Perform cross-validation
+cv_scores = cross_val_score(model, X, y, cv=5)
+
+print("Cross-validation scores:", cv_scores)
+print(f"Average CV score: {cv_scores.mean():.2f}")`,
+                output: `Cross-validation scores: [0.92 0.94 0.91 0.93 0.92]
+Average CV score: 0.92`
+              }
+            ],
+            notes: [
+              "Cross-validation helps assess model performance more reliably",
+              "Different metrics are suitable for different problems",
+              "Always consider multiple metrics when evaluating models"
+            ]
+          }
+        ],
+        quiz: {
+          title: "Model Evaluation Quiz",
+          questions: [
+            {
+              question: "Why is cross-validation important?",
+              options: [
+                "It makes the model faster",
+                "It provides a more reliable estimate of model performance",
+                "It increases model accuracy",
+                "It reduces training time"
+              ],
+              correctAnswer: 1,
+              explanation: "Cross-validation provides a more reliable estimate of model performance by testing it on multiple different splits of the data."
+            }
+          ]
+        }
       }
     ]
   },
-  3: { // GenAI Course
-    title: "Introduction to Generative AI",
+  3: { // Neural Networks Course
+    title: "Neural Networks",
+    duration: "10 Hours",
+    difficulty: "Advanced",
+    author: "AI Allstars Team",
+    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800",
     modules: [
       {
-        title: "Basics of Generative AI",
+        title: "Neural Network Fundamentals",
         lessons: [
           {
-            title: "Understanding Generative AI",
-            type: "video",
-            duration: "18:42",
-            content: "Introduction to generative models and their applications.",
-            videoUrl: "https://www.youtube.com/watch?v=hfIUstzHs9A", // Computerphile
-            additionalResources: [
+            title: "Introduction to Neural Networks",
+            type: "tutorial",
+            duration: "45 min",
+            points: 100,
+            content: `# Introduction to Neural Networks
+
+Neural networks are computing systems inspired by the biological neural networks in human brains. They are the foundation of deep learning, a subset of machine learning that excels at recognizing patterns.
+
+## Basic Components
+
+1. **Neurons (Nodes)**: The basic computational unit
+2. **Connections (Edges)**: Links between neurons with associated weights
+3. **Layers**: Groups of neurons
+   - Input Layer
+   - Hidden Layer(s)
+   - Output Layer
+
+## How Neural Networks Work
+
+Neural networks process information in three main steps:
+
+1. **Input**: Data enters through the input layer
+2. **Processing**: Data is transformed through hidden layers
+3. **Output**: Final result is produced at the output layer
+
+Let's look at a simple example:`,
+            codeExamples: [
               {
-                title: "OpenAI Documentation",
-                url: "https://platform.openai.com/docs/introduction"
+                code: `import numpy as np
+
+# Simple neural network with one neuron
+def neural_network(input, weight):
+    # Multiply input by weight
+    return input * weight
+
+# Example input and weight
+input = 0.5
+weight = 0.8
+
+# Calculate output
+output = neural_network(input, weight)
+print(f"Input: {input}")
+print(f"Weight: {weight}")
+print(f"Output: {output}")`,
+                output: `Input: 0.5
+Weight: 0.8
+Output: 0.4`
               }
+            ],
+            notes: [
+              "Neural networks learn by adjusting weights between neurons",
+              "The strength of connections determines the network's output",
+              "More complex networks can learn sophisticated patterns"
             ]
           },
           {
-            title: "Practical Prompt Engineering",
-            type: "video",
-            duration: "16:03",
-            content: "Learn how to write effective prompts for AI models.",
-            videoUrl: "https://www.youtube.com/watch?v=_ZvnD1IkQ9Q", // Andrew Ng
-            practice: "Create prompts for different use cases using ChatGPT.",
-            additionalResources: [
+            title: "Activation Functions",
+            type: "tutorial",
+            duration: "40 min",
+            points: 100,
+            content: `# Activation Functions
+
+Activation functions are crucial components that introduce non-linearity into neural networks. They determine whether a neuron should be activated or not.
+
+## Common Activation Functions
+
+1. **ReLU (Rectified Linear Unit)**
+   - Most commonly used
+   - f(x) = max(0, x)
+
+2. **Sigmoid**
+   - Outputs between 0 and 1
+   - Good for probability prediction
+
+3. **Tanh**
+   - Outputs between -1 and 1
+   - Often better than sigmoid
+
+Let's implement these functions:`,
+            codeExamples: [
               {
-                title: "OpenAI Prompt Engineering Guide",
-                url: "https://platform.openai.com/docs/guides/prompt-engineering"
+                code: `import numpy as np
+import matplotlib.pyplot as plt
+
+# Activation functions
+def relu(x):
+    return np.maximum(0, x)
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+def tanh(x):
+    return np.tanh(x)
+
+# Test the functions
+x = np.linspace(-5, 5, 100)
+y_relu = relu(x)
+y_sigmoid = sigmoid(x)
+y_tanh = tanh(x)
+
+print("ReLU output for x=2:", relu(2))
+print("Sigmoid output for x=2:", sigmoid(2))
+print("Tanh output for x=2:", tanh(2))`,
+                output: `ReLU output for x=2: 2.0
+Sigmoid output for x=2: 0.8807970779778823
+Tanh output for x=2: 0.9640275800758169`
               }
             ]
           }
-        ]
-      },
+        ],
+        quiz: {
+          title: "Neural Networks Basics Quiz",
+          questions: [
+            {
+              question: "What are the three main layers in a basic neural network?",
+              options: [
+                "Input, Processing, Output",
+                "Input, Hidden, Output",
+                "Start, Middle, End",
+                "Beginning, Processing, Final"
+              ],
+              correctAnswer: 1
+            },
+            {
+              question: "Which activation function outputs values between 0 and 1?",
+              options: [
+                "ReLU",
+                "Tanh",
+                "Sigmoid",
+                "Linear"
+              ],
+              correctAnswer: 2
+            },
+            {
+              question: "What is the output range of the ReLU activation function?",
+              options: [
+                "[-1, 1]",
+                "[0, ∞)",
+                "[-∞, ∞]",
+                "[0, 1]"
+              ],
+              correctAnswer: 1
+            },
+            {
+              question: "Which component of a neural network stores the learning parameters?",
+              options: [
+                "Neurons",
+                "Activation Functions",
+                "Weights",
+                "Layers"
+              ],
+              correctAnswer: 2
+            }
+          ]
+        }
+      }
+    ]
+  },
+  4: { // Data Visualization Course
+    title: "Data Visualization with Python",
+    duration: "12 Hours",
+    difficulty: "Beginner",
+    author: "AI Allstars Team",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800",
+    modules: [
       {
-        title: "Working with LLMs",
+        title: "Getting Started with Data Visualization",
         lessons: [
           {
-            title: "Introduction to Large Language Models",
-            type: "video",
-            duration: "22:15",
-            content: "Understanding how LLMs work and their capabilities.",
-            videoUrl: "https://www.youtube.com/watch?v=zjkBMFhNj_g", // Yannic Kilcher
-            additionalResources: [
+            title: "Introduction to Matplotlib",
+            type: "tutorial",
+            duration: "45 min",
+            points: 100,
+            content: `# Introduction to Matplotlib
+
+Matplotlib is one of the most popular data visualization libraries in Python. It provides a MATLAB-like interface for creating static, animated, and interactive visualizations.
+
+## Key Concepts
+
+1. **Figure**: The overall window or page where everything is drawn
+2. **Axes**: The actual plot area
+3. **Plot Elements**: Lines, points, bars, etc.
+4. **Customization Options**: Colors, labels, titles, etc.
+
+Let's start with some basic examples:`,
+            codeExamples: [
               {
-                title: "Hugging Face Documentation",
-                url: "https://huggingface.co/docs"
+                code: `import matplotlib.pyplot as plt
+import numpy as np
+
+# Create some data
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+
+# Create a simple line plot
+plt.plot(x, y)
+plt.title('Simple Line Plot')
+plt.xlabel('x')
+plt.ylabel('sin(x)')
+plt.show()`,
+                output: "// Plot showing a sine wave"
+              }
+            ],
+            notes: [
+              "Always import matplotlib.pyplot as plt (convention)",
+              "The show() function is required to display the plot",
+              "NumPy is often used with Matplotlib for data manipulation"
+            ]
+          },
+          {
+            title: "Working with Seaborn",
+            type: "tutorial",
+            duration: "40 min",
+            points: 100,
+            content: `# Introduction to Seaborn
+
+Seaborn is a statistical data visualization library built on top of Matplotlib. It provides a high-level interface for drawing attractive statistical graphics.
+
+## Advantages of Seaborn
+
+1. **Beautiful default styles**
+2. **Built-in statistical features**
+3. **Integration with Pandas**
+4. **Complex visualizations with simple commands**
+
+Let's create some common plots:`,
+            codeExamples: [
+              {
+                code: `import seaborn as sns
+import pandas as pd
+
+# Load a built-in dataset
+tips = sns.load_dataset('tips')
+
+# Create a scatter plot
+sns.scatterplot(data=tips, x='total_bill', y='tip')
+plt.title('Tips vs Total Bill')
+plt.show()`,
+                output: "// Scatter plot showing relationship between tips and total bill"
               }
             ]
           }
-        ]
+        ],
+        quiz: {
+          title: "Data Visualization Basics Quiz",
+          questions: [
+            {
+              question: "Which library is Seaborn built on top of?",
+              options: [
+                "NumPy",
+                "Pandas",
+                "Matplotlib",
+                "Scikit-learn"
+              ],
+              correctAnswer: 2,
+              explanation: "Seaborn is built on top of Matplotlib and provides a high-level interface for statistical graphics."
+            },
+            {
+              question: "What is the correct way to import Matplotlib?",
+              options: [
+                "import matplotlib",
+                "import matplotlib.pyplot as plt",
+                "from matplotlib import *",
+                "import pyplot"
+              ],
+              correctAnswer: 1,
+              explanation: "The convention is to import matplotlib.pyplot as plt for easier usage."
+            }
+          ]
+        }
+      },
+      {
+        title: "Advanced Visualization Techniques",
+        lessons: [
+          {
+            title: "Interactive Plots with Plotly",
+            type: "tutorial",
+            duration: "50 min",
+            points: 100,
+            content: `# Interactive Plots with Plotly
+
+Plotly is a modern library that creates interactive plots viewable in web browsers. These plots can be zoomed, panned, and hovered over for additional information.
+
+## Features
+
+1. **Interactivity**: Zoom, pan, hover tooltips
+2. **Web-based**: Works in browsers and Jupyter notebooks
+3. **Multiple Plot Types**: 3D plots, statistical charts, maps
+
+Let's create an interactive plot:`,
+            codeExamples: [
+              {
+                code: `import plotly.express as px
+
+# Load built-in dataset
+df = px.data.gapminder()
+
+# Create an interactive scatter plot
+fig = px.scatter(df, x='gdpPercap', y='lifeExp',
+                 color='continent', size='pop',
+                 hover_name='country',
+                 log_x=True)
+fig.show()`,
+                output: "// Interactive scatter plot showing life expectancy vs GDP"
+              }
+            ],
+            notes: [
+              "Plotly is great for creating dashboards",
+              "Interactive plots are especially useful for data exploration",
+              "Plots can be saved as HTML files for sharing"
+            ]
+          }
+        ],
+        quiz: {
+          title: "Interactive Visualization Quiz",
+          questions: [
+            {
+              question: "What is a key feature of Plotly?",
+              options: [
+                "Static plots only",
+                "Interactive visualizations",
+                "Print-only output",
+                "Limited plot types"
+              ],
+              correctAnswer: 1,
+              explanation: "Plotly is known for its interactive visualizations that can be manipulated in web browsers."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  5: { // Generative AI Course
+    title: "Introduction to Generative AI",
+    duration: "15 Hours",
+    difficulty: "Intermediate",
+    author: "AI Allstars Team",
+    image: "https://images.unsplash.com/photo-1678995632928-298d05d41671?w=800",
+    modules: [
+      {
+        title: "Foundations of Generative AI",
+        lessons: [
+          {
+            title: "What is Generative AI?",
+            type: "tutorial",
+            duration: "45 min",
+            points: 100,
+            content: `# Introduction to Generative AI
+
+Generative AI refers to artificial intelligence systems that can create new content, including text, images, music, and code. These systems learn patterns from existing data to generate new, original content that has never existed before.
+
+## Key Concepts
+
+1. **Training Data**: The information the AI learns from
+2. **Neural Networks**: The underlying architecture
+3. **Generative Models**: Systems that create new content
+4. **Tokens**: Basic units of text or data
+
+## Common Applications
+
+- Text Generation (ChatGPT)
+- Image Creation (DALL-E, Midjourney)
+- Code Generation (GitHub Copilot)
+- Music Composition
+- Video Synthesis`,
+            codeExamples: [
+              {
+                code: `# Simple example using OpenAI's API
+import openai
+
+response = openai.Completion.create(
+  engine="text-davinci-003",
+  prompt="Write a haiku about AI:",
+  max_tokens=50
+)
+
+print(response.choices[0].text)`,
+                output: `Silicon dreams flow
+Algorithms dance with thought
+Future unfolds now`
+              }
+            ],
+            notes: [
+              "Generative AI is transforming how we create and interact with content",
+              "Understanding the basics helps in effective use of AI tools",
+              "Ethical considerations are crucial in AI development"
+            ]
+          },
+          {
+            title: "Prompt Engineering Basics",
+            type: "tutorial",
+            duration: "40 min",
+            points: 100,
+            content: `# Prompt Engineering
+
+Prompt engineering is the art and science of crafting effective inputs to get desired outputs from AI models. Good prompts are clear, specific, and well-structured.
+
+## Prompt Components
+
+1. **Context**: Background information
+2. **Instruction**: What you want the AI to do
+3. **Examples**: Sample inputs and outputs
+4. **Format**: How you want the output structured
+
+Let's look at some examples:`,
+            codeExamples: [
+              {
+                code: `# Basic prompt
+prompt = "Write a tweet about AI"
+
+# Better prompt
+prompt = """
+Context: You are a tech enthusiast sharing insights about AI
+Task: Write a tweet about artificial intelligence
+Requirements:
+- Use engaging language
+- Include one hashtag
+- Maximum 280 characters
+- Mention one real-world application
+"""`,
+                output: `"🤖 Amazing how AI is revolutionizing healthcare through early disease detection and personalized treatment plans! The future of medicine is here. #ArtificialIntelligence"`
+              }
+            ]
+          }
+        ],
+        quiz: {
+          title: "Generative AI Basics Quiz",
+          questions: [
+            {
+              question: "What is the primary purpose of Generative AI?",
+              options: [
+                "To analyze existing data",
+                "To create new content",
+                "To store information",
+                "To connect to the internet"
+              ],
+              correctAnswer: 1,
+              explanation: "Generative AI is designed to create new, original content based on patterns learned from training data."
+            },
+            {
+              question: "Which of these is NOT a common application of Generative AI?",
+              options: [
+                "Text generation",
+                "Image creation",
+                "Network security",
+                "Music composition"
+              ],
+              correctAnswer: 2,
+              explanation: "While AI is used in network security, it's typically not a generative application."
+            },
+            {
+              question: "What is prompt engineering?",
+              options: [
+                "Writing computer programs",
+                "Fixing AI errors",
+                "Creating effective inputs for AI models",
+                "Building neural networks"
+              ],
+              correctAnswer: 2,
+              explanation: "Prompt engineering is the practice of crafting effective inputs to get desired outputs from AI models."
+            }
+          ]
+        }
+      },
+      {
+        title: "Working with Language Models",
+        lessons: [
+          {
+            title: "Understanding Language Models",
+            type: "tutorial",
+            duration: "50 min",
+            points: 100,
+            content: `# Language Models
+
+Large Language Models (LLMs) are AI systems trained on vast amounts of text data to understand and generate human-like text. They form the backbone of many modern AI applications.
+
+## Key Concepts
+
+1. **Tokens**: Basic text units
+2. **Context Window**: How much text the model can consider
+3. **Temperature**: Controls randomness
+4. **Top-k/Top-p**: Sampling methods
+
+Let's explore some practical examples:`,
+            codeExamples: [
+              {
+                code: `# Example using different temperature settings
+import openai
+
+def generate_text(prompt, temperature):
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=prompt,
+        temperature=temperature,
+        max_tokens=100
+    )
+    return response.choices[0].text
+
+# Compare outputs
+prompt = "Write a story about a robot"
+print("Temperature 0.2 (More focused):")
+print(generate_text(prompt, 0.2))
+print("\nTemperature 0.8 (More creative):")
+print(generate_text(prompt, 0.8))`,
+                output: `Temperature 0.2:
+A robot named Unit-7 efficiently performed its daily tasks in the factory...
+
+Temperature 0.8:
+In a world where dreams were made of circuits and stars were digital constellations...`
+              }
+            ]
+          }
+        ],
+        quiz: {
+          title: "Language Models Quiz",
+          questions: [
+            {
+              question: "What does temperature control in language models?",
+              options: [
+                "The processing speed",
+                "The model's creativity vs predictability",
+                "The output length",
+                "The memory usage"
+              ],
+              correctAnswer: 1,
+              explanation: "Temperature controls the randomness/creativity in the model's outputs. Higher values mean more creative but potentially less focused responses."
+            }
+          ]
+        }
       }
     ]
   }
