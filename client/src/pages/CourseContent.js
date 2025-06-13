@@ -1516,6 +1516,224 @@ In a world where dreams were made of circuits and stars were digital constellati
         }
       }
     ]
+  },
+  6: { // AI Ethics Course
+    title: "AI Ethics and Responsible Development",
+    duration: "8 Hours",
+    difficulty: "Intermediate",
+    author: "AI Allstars Team",
+    image: "https://images.unsplash.com/photo-1633613286991-611fe299c4be?w=800",
+    modules: [
+      {
+        title: "Foundations of AI Ethics",
+        lessons: [
+          {
+            title: "Introduction to AI Ethics",
+            type: "tutorial",
+            duration: "45 min",
+            points: 100,
+            content: `# Introduction to AI Ethics
+
+AI Ethics is a crucial field that examines the moral implications and societal impact of artificial intelligence systems. As AI becomes more prevalent in our daily lives, understanding its ethical dimensions is essential.
+
+## Key Concepts
+
+1. **Bias and Fairness**: How AI systems can perpetuate or amplify existing biases
+2. **Transparency**: The importance of explainable AI
+3. **Privacy**: Data protection and user rights
+4. **Accountability**: Who is responsible for AI decisions
+
+## Real-World Examples
+
+- Facial recognition systems showing racial bias
+- AI hiring tools discriminating against certain groups
+- Privacy concerns with AI-powered surveillance
+
+Let's examine a case study:`,
+            codeExamples: [
+              {
+                code: `# Example of bias detection in a dataset
+import pandas as pd
+import numpy as np
+
+# Simulated hiring dataset
+data = {
+    'gender': ['M', 'F', 'M', 'F', 'M', 'F'],
+    'experience': [5, 5, 3, 3, 4, 4],
+    'hired': [1, 0, 1, 0, 1, 0]
+}
+
+df = pd.DataFrame(data)
+
+# Calculate hiring rates by gender
+hiring_rates = df.groupby('gender')['hired'].mean()
+print("Hiring rates by gender:")
+print(hiring_rates)`,
+                output: `Hiring rates by gender:
+gender
+F    0.0
+M    1.0
+Name: hired, dtype: float64`
+              }
+            ],
+            notes: [
+              "AI systems can reflect and amplify human biases",
+              "Regular audits are essential for detecting bias",
+              "Diverse teams help prevent bias in AI development"
+            ]
+          },
+          {
+            title: "Fairness in AI",
+            type: "tutorial",
+            duration: "40 min",
+            points: 100,
+            content: `# Fairness in AI
+
+Fairness in AI refers to the equitable treatment of all individuals by AI systems, regardless of their background or characteristics.
+
+## Types of Fairness
+
+1. **Individual Fairness**: Similar individuals should receive similar outcomes
+2. **Group Fairness**: Equal outcomes across different demographic groups
+3. **Procedural Fairness**: Fair processes in AI decision-making
+
+## Measuring Fairness
+
+Let's look at some common fairness metrics:`,
+            codeExamples: [
+              {
+                code: `from sklearn.metrics import confusion_matrix
+import numpy as np
+
+# Simulated predictions and actual outcomes
+y_true = np.array([1, 0, 1, 0, 1, 0, 1, 0])
+y_pred = np.array([1, 0, 1, 0, 0, 1, 1, 0])
+
+# Calculate confusion matrix
+cm = confusion_matrix(y_true, y_pred)
+print("Confusion Matrix:")
+print(cm)
+
+# Calculate fairness metrics
+tn, fp, fn, tp = cm.ravel()
+fpr = fp / (fp + tn)  # False Positive Rate
+fnr = fn / (fn + tp)  # False Negative Rate
+
+print(f"\nFalse Positive Rate: {fpr:.2f}")
+print(f"False Negative Rate: {fnr:.2f}")`,
+                output: `Confusion Matrix:
+[[3 1]
+ [1 3]]
+
+False Positive Rate: 0.25
+False Negative Rate: 0.25`
+              }
+            ]
+          }
+        ],
+        quiz: {
+          title: "AI Ethics Basics Quiz",
+          questions: [
+            {
+              question: "What is the main goal of AI Ethics?",
+              options: [
+                "To make AI systems faster",
+                "To ensure AI systems are developed and used responsibly",
+                "To reduce AI development costs",
+                "To make AI systems more complex"
+              ],
+              correctAnswer: 1,
+              explanation: "AI Ethics aims to ensure that AI systems are developed and used in ways that are fair, transparent, and beneficial to society."
+            },
+            {
+              question: "Which of these is NOT a key principle of AI Ethics?",
+              options: [
+                "Transparency",
+                "Fairness",
+                "Speed",
+                "Accountability"
+              ],
+              correctAnswer: 2,
+              explanation: "Speed is not a key principle of AI Ethics. The main principles focus on fairness, transparency, accountability, and privacy."
+            }
+          ]
+        }
+      },
+      {
+        title: "Privacy and Security",
+        lessons: [
+          {
+            title: "Data Privacy in AI",
+            type: "tutorial",
+            duration: "45 min",
+            points: 100,
+            content: `# Data Privacy in AI
+
+Data privacy is a critical concern in AI development, as systems often require large amounts of personal data to function effectively.
+
+## Key Concepts
+
+1. **Data Minimization**: Collecting only necessary data
+2. **Anonymization**: Protecting individual identities
+3. **Consent**: User permission for data usage
+4. **Security**: Protecting data from breaches
+
+## Best Practices
+
+Let's look at some data privacy techniques:`,
+            codeExamples: [
+              {
+                code: `import pandas as pd
+import numpy as np
+
+# Simulated sensitive dataset
+data = {
+    'name': ['John Doe', 'Jane Smith', 'Bob Johnson'],
+    'age': [30, 25, 35],
+    'income': [50000, 60000, 45000]
+}
+
+df = pd.DataFrame(data)
+
+# Anonymize data
+df_anonymized = df.copy()
+df_anonymized['name'] = df_anonymized['name'].apply(lambda x: 'User_' + str(hash(x) % 1000))
+df_anonymized['income'] = df_anonymized['income'].apply(lambda x: round(x/1000) * 1000)
+
+print("Anonymized Data:")
+print(df_anonymized)`,
+                output: `Anonymized Data:
+      name  age  income
+0  User_123   30   50000
+1  User_456   25   60000
+2  User_789   35   45000`
+              }
+            ],
+            notes: [
+              "Always minimize the amount of personal data collected",
+              "Implement strong security measures to protect data",
+              "Be transparent about data collection and usage"
+            ]
+          }
+        ],
+        quiz: {
+          title: "Privacy and Security Quiz",
+          questions: [
+            {
+              question: "What is data minimization?",
+              options: [
+                "Making data smaller in size",
+                "Collecting only necessary data",
+                "Deleting old data",
+                "Compressing data files"
+              ],
+              correctAnswer: 1,
+              explanation: "Data minimization is the practice of collecting only the data that is necessary for the intended purpose."
+            }
+          ]
+        }
+      }
+    ]
   }
 };
 

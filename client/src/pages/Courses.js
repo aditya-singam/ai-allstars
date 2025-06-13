@@ -94,6 +94,21 @@ const courses = [
       "Fine-tuning Models",
       "Ethical Considerations"
     ]
+  },
+  {
+    id: 6,
+    title: "AI Ethics and Responsible Development",
+    description: "Learn about the ethical implications of AI and how to develop responsible AI systems.",
+    lessons: 4,
+    image: "https://images.unsplash.com/photo-1633613286991-611fe299c4be?w=800",
+    level: "Intermediate",
+    duration: "8 hours",
+    topics: [
+      "Foundations of AI Ethics",
+      "Fairness and Bias",
+      "Privacy and Security",
+      "Responsible AI Development"
+    ]
   }
 ];
 
